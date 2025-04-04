@@ -13,15 +13,14 @@ Todo tracker cli
 
 > This project is done as a part of <https://roadmap.sh/projects/task-tracker>
 
-## Usage
-
-```bash
-Gotasks help
-```
-
 ## Installation
 
 ```bash
 go install https://github.com/arjansunar/Gotasks
+```
 
+## Usage
+
+```bash
+Gotasks help
 ```
