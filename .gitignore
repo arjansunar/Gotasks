@@ -1,2 +1,3 @@
 gotasks
 *.json
+coverage.out
