@@ -11,7 +11,9 @@ func getPath() string {
 }
 
 func main() {
-	path := prepareDump(getPath())
+	path, err := prepareDump(getPath())
+	fmt.Println(err)
+	os.Exit(1)
 	file, err := os.Open(path)
 	if err != nil {
 		fmt.Println(err)

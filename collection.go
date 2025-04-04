@@ -118,17 +118,16 @@ func readFromJson(r io.Reader) Db {
 	return Db{data}
 }
 
-func prepareDump(filename string) string {
+func prepareDump(filename string) (string, error) {
 	file, err := os.Open(filename)
 	if err == nil {
-		return filename
+		return filename, nil
 	}
 	defer file.Close()
 	file, err = os.Create(filename)
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		return "", err
 	}
 	defer file.Close()
-	return filename
+	return filename, nil
 }

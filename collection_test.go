@@ -38,7 +38,8 @@ func TestSave(t *testing.T) {
 	db.Add("testing")
 	db.Save()
 
-	path := prepareDump(getPath())
+	path, err := prepareDump(getPath())
+	AssertEqual(t, true, err == nil)
 	file, err := os.Open(path)
 	AssertEqual(t, true, err == nil)
 	db = readFromJson(file)
