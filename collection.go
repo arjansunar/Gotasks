@@ -18,6 +18,10 @@ func (db *Db) Add(desc string) Task {
 	return task
 }
 
+func (db *Db) AddTask(t Task) {
+	db.tasks = append(db.tasks, t)
+}
+
 func (db *Db) Delete(id int) []Task {
 	newTasks := []Task{}
 	for _, v := range db.tasks {
@@ -26,6 +30,28 @@ func (db *Db) Delete(id int) []Task {
 		}
 	}
 	return newTasks
+}
+
+func (db *Db) Update(id int, desc string) error {
+	t, err := db.Find(id)
+	if err != nil {
+		return err
+	}
+	t.Description = desc
+	db.Delete(id)
+	db.AddTask(t)
+	return nil
+}
+
+func (db *Db) Mark(id int, status Status) error {
+	t, err := db.Find(id)
+	if err != nil {
+		return err
+	}
+	t.Status = status
+	db.Delete(id)
+	db.AddTask(t)
+	return nil
 }
 
 func (db *Db) Find(id int) (Task, error) {

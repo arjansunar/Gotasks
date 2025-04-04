@@ -28,13 +28,13 @@ func main() {
 	case "delete":
 		deleteCommand(&db)
 		db.Save()
-	case "find":
-		task, err := db.Find(1)
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
-		fmt.Println(task)
+	case "mark-in-progress":
+		markCommand(&db, IN_PROGRESS)
+		db.Save()
+	case "mark-done":
+		markCommand(&db, DONE)
+		db.Save()
+
 	default:
 		fmt.Println("Expected a subcommand")
 		os.Exit(1)
@@ -80,4 +80,18 @@ func deleteCommand(db *Db) {
 	}
 	db.Delete(id)
 	fmt.Printf("Task %d deleted", id)
+}
+
+func markCommand(db *Db, status Status) {
+	if len(os.Args) < 3 {
+		fmt.Println("Expected a task id")
+		os.Exit(1)
+	}
+
+	id, err := strconv.Atoi(os.Args[2])
+	if err != nil {
+		fmt.Printf("Ids should be numbers: %d", id)
+		os.Exit(1)
+	}
+	db.Mark(id, status)
 }
