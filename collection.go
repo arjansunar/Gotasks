@@ -102,15 +102,15 @@ func readFromJson(r io.Reader) Db {
 
 func prepareDump(filename string) string {
 	file, err := os.Open(filename)
-	if err != nil {
-		defer file.Close()
-		file, err = os.Create(filename)
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
-		defer file.Close()
+	if err == nil {
 		return filename
 	}
+	defer file.Close()
+	file, err = os.Create(filename)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	defer file.Close()
 	return filename
 }
