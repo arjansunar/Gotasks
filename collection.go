@@ -68,7 +68,6 @@ func (db *Db) Render(filter *Filter) string {
 }
 
 func (db *Db) Save() {
-	print("Saving..")
 	file, _ := os.Create(getPath())
 	defer file.Close()
 	data, err := json.Marshal(db.tasks)
@@ -101,11 +100,17 @@ func readFromJson(r io.Reader) Db {
 	return Db{data, len(data)}
 }
 
-func readDump(filename string) *os.File {
+func prepareDump(filename string) string {
 	file, err := os.Open(filename)
 	if err != nil {
-		fmt.Println("Unable to open db dump")
-		os.Exit(1)
+		defer file.Close()
+		file, err = os.Create(filename)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		defer file.Close()
+		return filename
 	}
-	return file
+	return filename
 }

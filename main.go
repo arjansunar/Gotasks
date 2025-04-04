@@ -7,7 +7,13 @@ import (
 )
 
 func main() {
-	db := readFromJson(readDump(getPath()))
+	path := prepareDump(getPath())
+	file, err := os.Open(path)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	db := readFromJson(file)
 	if len(os.Args) < 2 {
 		fmt.Println("Expected subcommand")
 		os.Exit(1)
@@ -37,7 +43,7 @@ func main() {
 
 func list(db *Db) {
 	var filter *Filter
-	if len(os.Args) == 2 {
+	if len(os.Args) == 3 {
 		switch os.Args[2] {
 		case "done":
 			filter = &Filter{DONE}
