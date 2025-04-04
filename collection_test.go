@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"strings"
 	"testing"
 )
@@ -14,6 +15,35 @@ func AssertEqual(t *testing.T, expected, actual interface{}) {
 func getEmptyDb() Db {
 	empty := ""
 	return readFromJson(strings.NewReader(empty))
+}
+
+func TestCreation(t *testing.T) {
+	db := readFromJson(strings.NewReader(""))
+	AssertEqual(t, 0, len(db.List(nil)))
+
+	db = readFromJson(strings.NewReader("[]"))
+	AssertEqual(t, 0, len(db.List(nil)))
+
+	db = readFromJson(strings.NewReader(`[{"id":1,"description":"testing","status":"in-progress","createdAt":"2025-04-04T06:53:24.375688299Z","updatedAt":"2025-04-04T06:53:24.375688299Z"}]`))
+	AssertEqual(t, 1, len(db.List(nil)))
+	AssertEqual(t, 0, len(db.List(&Filter{TODO})))
+	AssertEqual(t, 1, len(db.List(&Filter{IN_PROGRESS})))
+	AssertEqual(t, 0, len(db.List(&Filter{DONE})))
+}
+
+func TestSave(t *testing.T) {
+	db := getEmptyDb()
+	db.Add("testing")
+	db.Add("testing")
+	db.Add("testing")
+	db.Save()
+
+	path := prepareDump(getPath())
+	file, err := os.Open(path)
+	AssertEqual(t, true, err == nil)
+	db = readFromJson(file)
+	AssertEqual(t, 3, len(db.List(nil)))
+	AssertEqual(t, 3, len(db.List(&Filter{TODO})))
 }
 
 func TestAddTask(t *testing.T) {

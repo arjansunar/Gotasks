@@ -104,10 +104,6 @@ func (db *Db) Save() {
 	}
 }
 
-func getPath() string {
-	return "db.json"
-}
-
 func readFromJson(r io.Reader) Db {
 	decoder := json.NewDecoder(r)
 	decoder.Token()

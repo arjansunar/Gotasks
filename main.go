@@ -6,6 +6,10 @@ import (
 	"strconv"
 )
 
+func getPath() string {
+	return "db.json"
+}
+
 func main() {
 	path := prepareDump(getPath())
 	file, err := os.Open(path)
