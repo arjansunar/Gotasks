@@ -130,13 +130,13 @@ Commands:
   help                                Show this message and exit
 
 Examples:
-  task-cli add "Buy groceries"
-  task-cli update 1 "Buy groceries and cook dinner"
-  task-cli delete 1
-  task-cli mark-in-progress 1
-  task-cli mark-done 1
-  task-cli list
-  task-cli list done
-  task-cli list todo
-  task-cli list in-progress`)
+  gotasks add "Buy groceries"
+  gotasks update 1 "Buy groceries and cook dinner"
+  gotasks delete 1
+  gotasks mark-in-progress 1
+  gotasks mark-done 1
+  gotasks list
+  gotasks list done
+  gotasks list todo
+  gotasks list in-progress`)
 }
