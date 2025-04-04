@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strconv"
 )
 
 func main() {
@@ -18,8 +19,8 @@ func main() {
 		db.Save()
 	case "list":
 		list(&db)
-	case "remove":
-		db.Remove(1)
+	case "delete":
+		deleteCommand(&db)
 		db.Save()
 	case "find":
 		task, err := db.Find(1)
@@ -47,4 +48,19 @@ func addCommand(db *Db) {
 	desc := os.Args[2]
 	t := db.Add(desc)
 	fmt.Printf("Task added successfully (ID: %d)", t.Id)
+}
+
+func deleteCommand(db *Db) {
+	if len(os.Args) < 3 {
+		fmt.Println("Expected a task id")
+		os.Exit(1)
+	}
+
+	id, err := strconv.Atoi(os.Args[2])
+	if err != nil {
+		fmt.Printf("Ids should be numbers: %d", id)
+		os.Exit(1)
+	}
+	db.Remove(id)
+	fmt.Printf("Task %d deleted", id)
 }
