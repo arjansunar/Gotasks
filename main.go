@@ -22,18 +22,16 @@ func main() {
 	switch os.Args[1] {
 	case "add":
 		addCommand(&db)
-		db.Save()
 	case "list":
 		list(&db)
 	case "delete":
 		deleteCommand(&db)
-		db.Save()
+	case "update":
+		updateCommand(&db)
 	case "mark-in-progress":
 		markCommand(&db, IN_PROGRESS)
-		db.Save()
 	case "mark-done":
 		markCommand(&db, DONE)
-		db.Save()
 
 	default:
 		fmt.Println("Expected a subcommand")
@@ -57,6 +55,7 @@ func list(db *Db) {
 }
 
 func addCommand(db *Db) {
+	defer db.Save()
 	if len(os.Args) < 3 {
 		fmt.Println("Expected a task description")
 		os.Exit(1)
@@ -68,6 +67,7 @@ func addCommand(db *Db) {
 }
 
 func deleteCommand(db *Db) {
+	defer db.Save()
 	if len(os.Args) < 3 {
 		fmt.Println("Expected a task id")
 		os.Exit(1)
@@ -83,6 +83,7 @@ func deleteCommand(db *Db) {
 }
 
 func markCommand(db *Db, status Status) {
+	defer db.Save()
 	if len(os.Args) < 3 {
 		fmt.Println("Expected a task id")
 		os.Exit(1)
@@ -94,4 +95,20 @@ func markCommand(db *Db, status Status) {
 		os.Exit(1)
 	}
 	db.Mark(id, status)
+}
+
+func updateCommand(db *Db) {
+	defer db.Save()
+	if len(os.Args) < 4 {
+		fmt.Println("Expected task id and description")
+		os.Exit(1)
+	}
+
+	id, err := strconv.Atoi(os.Args[2])
+	if err != nil {
+		fmt.Printf("Ids should be numbers: %d", id)
+		os.Exit(1)
+	}
+	desc := os.Args[3]
+	db.Update(id, desc)
 }
