@@ -125,3 +125,10 @@ func TestListTask(t *testing.T) {
 	inprog = db.List(&Filter{IN_PROGRESS})
 	AssertEqual(t, 1, len(inprog))
 }
+
+func TestRender(t *testing.T) {
+	db := getEmptyDb()
+	AssertEqual(t, "", db.Render(nil))
+	db.Add("testing")
+	AssertEqual(t, "- [ ] testing", strings.TrimSpace(db.Render(nil)))
+}
