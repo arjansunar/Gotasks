@@ -16,7 +16,7 @@ Todo tracker cli
 ## Installation
 
 ```bash
-go install https://github.com/arjansunar/Gotasks
+go install github.com/arjansunar/gotasks
 ```
 
 ## Usage
