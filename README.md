@@ -2,7 +2,7 @@
 
 Todo tracker cli
 
-> This project is done as a part of [https://roadmap.sh/projects/task-tracker](task-tracker) from [https://roadmap.sh/](roadmap.sh)
+> This project is done as a part of [task-tracker](https://roadmap.sh/projects/task-tracker) from [roadmap.sh](https://roadmap.sh/)
 
 ## How to Run
 
