@@ -22,14 +22,15 @@ func (db *Db) AddTask(t Task) {
 	db.tasks = append(db.tasks, t)
 }
 
-func (db *Db) Delete(id int) []Task {
+func (db *Db) Delete(id int) {
 	newTasks := []Task{}
 	for _, v := range db.tasks {
-		if v.Id != id {
-			newTasks = append(newTasks, v)
+		if v.Id == id {
+			continue
 		}
+		newTasks = append(newTasks, v)
 	}
-	return newTasks
+	db.tasks = newTasks
 }
 
 func (db *Db) Update(id int, desc string) error {
