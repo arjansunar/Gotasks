@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 )
@@ -14,11 +15,11 @@ const (
 )
 
 type Task struct {
-	Id          int
-	Description string
-	Status      Status
-	CreatedAt   time.Time
-	UpdateAt    time.Time
+	Id          int       `json:"id"`
+	Description string    `json:"description"`
+	Status      Status    `json:"status"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdateAt    time.Time `json:"updatedAt"`
 }
 
 func NewTask(id int, description string) Task {
@@ -26,6 +27,15 @@ func NewTask(id int, description string) Task {
 	return Task{
 		id, description, NOT_DONE, createdAt, createdAt,
 	}
+}
+
+func Decode(content string) error {
+	var payload Task
+	return json.Unmarshal([]byte(content), &payload)
+}
+
+func (t *Task) Encode(content string) ([]byte, error) {
+	return json.Marshal(t)
 }
 
 func (t Task) String() string {
