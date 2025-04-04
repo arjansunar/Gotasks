@@ -34,7 +34,7 @@ func Decode(content string) error {
 	return json.Unmarshal([]byte(content), &payload)
 }
 
-func (t *Task) Encode(content string) ([]byte, error) {
+func (t *Task) Encode() ([]byte, error) {
 	return json.Marshal(t)
 }
 
@@ -45,4 +45,10 @@ func (t Task) String() string {
 func main() {
 	example := NewTask(1, "New desc")
 	fmt.Println(example)
+
+	encoded, err := example.Encode()
+	if err != nil {
+		fmt.Println("Error: unable to convert to json")
+	}
+	fmt.Println(string(encoded))
 }
