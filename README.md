@@ -21,5 +21,5 @@ go install github.com/arjansunar/gotasks
 ## Usage
 
 ```bash
-Gotasks help
+./gotasks help
 ```

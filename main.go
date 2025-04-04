@@ -117,7 +117,7 @@ func updateCommand(db *Db) {
 func helpCommand() {
 	fmt.Println(
 		`
-Usage: task-cli <command> [options]
+Usage: gotasks <command> [options]
 
 Commands:
   add <task_description>              Add a new task
