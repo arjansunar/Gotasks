@@ -133,3 +133,64 @@ func TestRender(t *testing.T) {
 	db.Add("testing")
 	AssertEqual(t, "- [ ] testing", strings.TrimSpace(db.Render(nil)))
 }
+
+func TestPrepareDump(t *testing.T) {
+	// Test case 1: File exists and can be opened successfully
+	t.Run("file exists", func(t *testing.T) {
+		// Create a temporary file
+		tempFile, err := os.CreateTemp("", "testfile-")
+		if err != nil {
+			t.Fatalf("Failed to create temporary file: %v", err)
+		}
+		defer os.Remove(tempFile.Name()) // Clean up after the test
+
+		// Call the function
+		result, err := prepareDump(tempFile.Name())
+		if err != nil {
+			t.Errorf("Expected no error, but got %v", err)
+		}
+
+		// Assert the result
+		if result != tempFile.Name() {
+			t.Errorf("Expected %s, but got %s", tempFile.Name(), result)
+		}
+	})
+
+	// Test case 2: File does not exist and is created successfully
+	t.Run("file does not exist and is created", func(t *testing.T) {
+		// Create a temporary filename that doesn't exist
+		tempFileName := "testfile-does-not-exist.txt"
+		defer os.Remove(tempFileName) // Clean up after the test
+
+		// Call the function
+		result, err := prepareDump(tempFileName)
+		if err != nil {
+			t.Errorf("Expected no error, but got %v", err)
+		}
+
+		// Assert the result
+		if result != tempFileName {
+			t.Errorf("Expected %s, but got %s", tempFileName, result)
+		}
+
+		// Ensure the file has been created
+		if _, err := os.Stat(tempFileName); os.IsNotExist(err) {
+			t.Errorf("Expected file %s to be created, but it does not exist", tempFileName)
+		}
+	})
+
+	// Test case 3: Error occurs while creating the file (e.g., due to permission issues)
+	t.Run("error creating file", func(t *testing.T) {
+		// Simulate a file creation error by providing an invalid filename
+		// (e.g., trying to create a file in a directory where we have no write permission)
+		tempFileName := "/root/testfile-no-permission.txt" // Modify based on your system
+
+		// Call the function
+		_, err := prepareDump(tempFileName)
+
+		// Assert that an error occurred
+		if err == nil {
+			t.Errorf("Expected error, but got nil")
+		}
+	})
+}
