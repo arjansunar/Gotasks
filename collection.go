@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"os"
 )
 
@@ -17,7 +18,7 @@ func (db *Db) Add(desc string) Task {
 	return task
 }
 
-func (db *Db) Remove(id int) []Task {
+func (db *Db) Delete(id int) []Task {
 	newTasks := []Task{}
 	for _, v := range db.tasks {
 		if v.Id != id {
@@ -69,11 +70,8 @@ func getPath() string {
 	return "db.json"
 }
 
-func readFromJson(fileName string) Db {
-	file, _ := os.Open(fileName)
-	defer file.Close()
-
-	decoder := json.NewDecoder(file)
+func readFromJson(r io.Reader) Db {
+	decoder := json.NewDecoder(r)
 	decoder.Token()
 
 	data := []Task{}
@@ -84,4 +82,13 @@ func readFromJson(fileName string) Db {
 	}
 
 	return Db{data, len(data)}
+}
+
+func readDump(filename string) *os.File {
+	file, err := os.Open(filename)
+	if err != nil {
+		fmt.Println("Unable to open db dump")
+		os.Exit(1)
+	}
+	return file
 }

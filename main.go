@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	db := readFromJson(getPath())
+	db := readFromJson(readDump(getPath()))
 	if len(os.Args) < 2 {
 		fmt.Println("Expected subcommand")
 		os.Exit(1)
@@ -61,6 +61,6 @@ func deleteCommand(db *Db) {
 		fmt.Printf("Ids should be numbers: %d", id)
 		os.Exit(1)
 	}
-	db.Remove(id)
+	db.Delete(id)
 	fmt.Printf("Task %d deleted", id)
 }
