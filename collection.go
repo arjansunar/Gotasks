@@ -8,12 +8,11 @@ import (
 )
 
 type Db struct {
-	tasks  []Task
-	length int
+	tasks []Task
 }
 
 func (db *Db) Add(desc string) Task {
-	task := NewTask(db.length+1, desc)
+	task := NewTask(len(db.tasks)+1, desc)
 	db.tasks = append(db.tasks, task)
 	return task
 }
@@ -120,7 +119,7 @@ func readFromJson(r io.Reader) Db {
 		data = append(data, task)
 	}
 
-	return Db{data, len(data)}
+	return Db{data}
 }
 
 func prepareDump(filename string) string {
