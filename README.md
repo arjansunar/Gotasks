@@ -2,18 +2,17 @@
 
 Todo tracker cli
 
-## Feature
+> This project is done as a part of [<https://roadmap.sh/projects/task-tracker>](task-tracker) from [https://roadmap.sh/](roadmap.sh)
 
-- Add, Update, and Delete tasks
-- Mark a task as in progress or done
-- List all tasks
-- List all tasks that are done
-- List all tasks that are not done
-- List all tasks that are in progress
+## How to Run
 
-> This project is done as a part of <https://roadmap.sh/projects/task-tracker>
+```bash
+git clone https://github.com/arjansunar/gotasks
+cd gotasks
+go build -o gotasks
+```
 
-## Installation
+### Installation
 
 ```bash
 go install github.com/arjansunar/gotasks
