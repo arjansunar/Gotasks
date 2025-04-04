@@ -40,6 +40,15 @@ func (db *Db) List() []Task {
 	return db.tasks
 }
 
+func (db *Db) Render() string {
+	res := ""
+	tasks := db.List()
+	for _, task := range tasks {
+		res = fmt.Sprintf("%s\n%s", res, task.Render())
+	}
+	return res
+}
+
 func (db *Db) Save() {
 	print("Saving..")
 	file, _ := os.Create(getPath())

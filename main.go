@@ -35,7 +35,7 @@ func main() {
 }
 
 func list(db *Db) {
-	fmt.Println(db.List())
+	fmt.Println(db.Render())
 }
 
 func addCommand(db *Db) {
