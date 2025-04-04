@@ -68,10 +68,6 @@ type Filter struct {
 	status Status
 }
 
-const (
-	ALL_FILTER Status = "all"
-)
-
 func (db *Db) List(filter *Filter) []Task {
 	if filter != nil {
 		filtered := []Task{}

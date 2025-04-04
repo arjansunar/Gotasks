@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"time"
 )
@@ -27,15 +26,6 @@ func NewTask(id int, description string) Task {
 	return Task{
 		id, description, TODO, createdAt, createdAt,
 	}
-}
-
-func Decode(content string) error {
-	var payload Task
-	return json.Unmarshal([]byte(content), &payload)
-}
-
-func (t *Task) Encode() ([]byte, error) {
-	return json.Marshal(t)
 }
 
 func (t Task) Render() string {
