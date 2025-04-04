@@ -36,7 +36,18 @@ func main() {
 }
 
 func list(db *Db) {
-	fmt.Println(db.Render())
+	var filter *Filter
+	if len(os.Args) == 2 {
+		switch os.Args[2] {
+		case "done":
+			filter = &Filter{DONE}
+		case "in-progress":
+			filter = &Filter{IN_PROGRESS}
+		case "todo":
+			filter = &Filter{TODO}
+		}
+	}
+	fmt.Println(db.Render(filter))
 }
 
 func addCommand(db *Db) {

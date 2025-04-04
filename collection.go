@@ -37,13 +37,30 @@ func (db *Db) Find(id int) (Task, error) {
 	return Task{}, fmt.Errorf("no task found with id %d", id)
 }
 
-func (db *Db) List() []Task {
+type Filter struct {
+	status Status
+}
+
+const (
+	ALL_FILTER Status = "all"
+)
+
+func (db *Db) List(filter *Filter) []Task {
+	if filter != nil {
+		filtered := []Task{}
+		for _, t := range db.tasks {
+			if t.Status == filter.status {
+				filtered = append(filtered, t)
+			}
+		}
+		return filtered
+	}
 	return db.tasks
 }
 
-func (db *Db) Render() string {
+func (db *Db) Render(filter *Filter) string {
 	res := ""
-	tasks := db.List()
+	tasks := db.List(filter)
 	for _, task := range tasks {
 		res = fmt.Sprintf("%s\n%s", res, task.Render())
 	}

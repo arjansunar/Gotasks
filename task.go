@@ -11,7 +11,7 @@ type Status string
 const (
 	IN_PROGRESS Status = "in-progress"
 	DONE        Status = "done"
-	NOT_DONE    Status = "not-done"
+	TODO        Status = "todo"
 )
 
 type Task struct {
@@ -25,7 +25,7 @@ type Task struct {
 func NewTask(id int, description string) Task {
 	createdAt := time.Now().UTC()
 	return Task{
-		id, description, NOT_DONE, createdAt, createdAt,
+		id, description, TODO, createdAt, createdAt,
 	}
 }
 
