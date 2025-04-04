@@ -43,6 +43,9 @@ func (t Task) Render() string {
 	if t.Status == DONE {
 		completedRender = "X"
 	}
+	if t.Status == IN_PROGRESS {
+		completedRender = "~"
+	}
 	return fmt.Sprintf("- [%s] %s", completedRender, t.Description)
 }
 
