@@ -40,6 +40,22 @@ func (db *Db) List() []Task {
 	return db.tasks
 }
 
+func (db *Db) Save() {
+	print("Saving..")
+	file, _ := os.Create(getPath())
+	defer file.Close()
+	data, err := json.Marshal(db.tasks)
+	if err != nil {
+		fmt.Println("Unable to save", err)
+		os.Exit(1)
+	}
+	_, werr := file.Write(data)
+	if werr != nil {
+		fmt.Println("Unable to write", werr)
+		os.Exit(1)
+	}
+}
+
 func getPath() string {
 	return "db.json"
 }
@@ -49,11 +65,9 @@ func readFromJson(fileName string) Db {
 	defer file.Close()
 
 	decoder := json.NewDecoder(file)
-
-	// Read the array open bracket
 	decoder.Token()
 
-	var data []Task
+	data := []Task{}
 	var task Task
 	for decoder.More() {
 		decoder.Decode(&task)

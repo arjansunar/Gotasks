@@ -30,6 +30,7 @@ func main() {
 		fmt.Println("Expected a subcommand")
 		os.Exit(1)
 	}
+	db.Save()
 }
 
 func list(db Db) {
