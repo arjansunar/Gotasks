@@ -36,6 +36,10 @@ func (db *Db) Find(id int) (Task, error) {
 	return Task{}, fmt.Errorf("no task found with id %d", id)
 }
 
+func (db *Db) List() []Task {
+	return db.tasks
+}
+
 func getPath() string {
 	return "db.json"
 }
