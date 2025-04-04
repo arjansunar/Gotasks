@@ -38,7 +38,3 @@ func (t Task) Render() string {
 	}
 	return fmt.Sprintf("- [%s] %s", completedRender, t.Description)
 }
-
-func (t Task) String() string {
-	return fmt.Sprintf("Task (%d)| %s | created -> %s", t.Id, t.Description, t.CreatedAt.Format(time.RFC3339))
-}
