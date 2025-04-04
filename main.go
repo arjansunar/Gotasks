@@ -14,11 +14,13 @@ func main() {
 
 	switch os.Args[1] {
 	case "add":
-		addCommand(db)
+		addCommand(&db)
+		db.Save()
 	case "list":
-		list(db)
+		list(&db)
 	case "remove":
 		db.Remove(1)
+		db.Save()
 	case "find":
 		task, err := db.Find(1)
 		if err != nil {
@@ -30,14 +32,13 @@ func main() {
 		fmt.Println("Expected a subcommand")
 		os.Exit(1)
 	}
-	db.Save()
 }
 
-func list(db Db) {
+func list(db *Db) {
 	fmt.Println(db.List())
 }
 
-func addCommand(db Db) {
+func addCommand(db *Db) {
 	if len(os.Args) < 3 {
 		fmt.Println("Expected a task description")
 		os.Exit(1)
